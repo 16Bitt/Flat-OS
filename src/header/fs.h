@@ -2,13 +2,7 @@
 #define FS_H
 
 #define FFS_MAGIC 0x04206969
-#define FFS_ENTRY_SIZE 128 + 4 + 4
-
-typedef struct directory{
-	unsigned int 	start,
-			num_files;
-	file_t** files;
-} directory_t;
+#define FFS_ENTRY_SIZE (128 + 4 + 4)
 
 typedef struct file{
 	unsigned int	offset,
@@ -16,6 +10,12 @@ typedef struct file{
 	char* 		name;
 	unsigned char* 	data;
 } file_t;
+
+typedef struct directory{
+	unsigned int 	start,
+			num_files;
+	file_t** files;
+} directory_t;
 
 extern directory_t* fs_root;
 extern unsigned int size;

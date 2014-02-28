@@ -1,21 +1,24 @@
 #include "fs.h"
 #include "common.h"
 #include "kheap.h"
+#include "monitor.h"
 
 directory_t* fs_root = (directory_t*) 0;
 unsigned int size = 0;
 
-void mnt_intird(unsigned int address){
+void mnt_initrd(unsigned int ptr){
+	unsigned int address = *((unsigned int*) ptr);
 	size = *((unsigned int*) address);
-	unsigned int magic_header = *((unsigned int*) address + 4);
-	unsigned int magic_footer = *((unsigned int*) address + size - 4);
+	
+	unsigned int magic_header = *(unsigned int*)(address + 4);
+	unsigned int magic_footer = *(unsigned int*)(address + size - 4);
 
 	ASSERT((magic_footer == FFS_MAGIC) && (magic_header == FFS_MAGIC));
 
-	fs_root = (directory_t*) kmalloc(sizeof(directory));
+	fs_root = (directory_t*) kmalloc(sizeof(directory_t));
 	fs_root->start = address;
 
-	unsigned int num_files = *((int*) address + 8);
+	unsigned int num_files = *(unsigned int*)(address + 8);
 	fs_root->num_files = num_files;
 
 	file_t** files_list = (file_t**) kmalloc(sizeof(file_t*) * num_files);
@@ -25,9 +28,23 @@ void mnt_intird(unsigned int address){
 		file_t* new_file = (file_t*) kmalloc(sizeof(file_t));
 		files_list[i] = new_file;
 		
-		new_file->name 		= (char*) (address + 4 + 4 + 4 + (i * FFS_ENTRY_SIZE));
-		new_file->offset 	= *((unsigned int*) (address + (i * FFS_ENTRY_SIZE) + 128));
-		new_file->size		= *((unsigned int*) (address + (i * FFS_ENTRY_SIZE) + 128 + 4));
+		new_file->name 		= (char*) (address + 12 + (i * FFS_ENTRY_SIZE));
+
+		vga_puts("CREATING:");
+		vga_puts(new_file->name);
+		vga_putc('\t');
+		
+
+		new_file->offset 	= *((unsigned int*) (address + 12 + (i * FFS_ENTRY_SIZE) + 128));
+		vga_puts("OFFSET: ");
+		vga_puts_hex(new_file->offset);
+		vga_putc('\t');
+
+
+		new_file->size		= *((unsigned int*) (address + 12 + (i * FFS_ENTRY_SIZE) + 128 + 4));
+		vga_puts("SIZE: ");
+		vga_puts_hex(new_file->size);
+		vga_putc('\n');
 
 		new_file->data		= (unsigned char*) (address + new_file->offset);
 	}
