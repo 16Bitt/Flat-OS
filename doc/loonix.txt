@@ -1,0 +1,50 @@
+__LOONIX__
+
+This is simply a small kernel, made to run a small collection of programs. It's not much, and I don't expect it ever will be.
+
+__GOALS__
+
+I want to run some programs, on a tiny kernel written in C
+
+__SOURCE__
+
+All source will be licensed under the GPL. Lots of the code is modified source from osdev.org, and I will be giving credit where credit is due.
+
+The Source Tree:
+	src/
+		kernel files
+		header/
+			header files
+
+Files that should never be touched:
+	kheap.c
+	paging.c
+	ordered_array.c
+
+These all use very fragile codebases based around a lot of conversions between (unsigned int) and (void*)
+
+__CODING_CONVENTIONS__
+
+-No camel case, all underscore style
+-ALWAYS space between math operators and arguments
+-Avoid uneccessary brackets
+
+__INITRAMFS__
+
+The initramfs will be following a format I created named FFS (Flat File System). See FFS.txt for more information.
+
+__DISK_IO__
+
+Disk drivers should be added later on, but for the time being, there are none.
+
+__NETWORKING__
+
+There is pretty much no chance there will be networking, but I'll see what I can do.
+
+__INTERFACE__
+
+Everything will based around the start shell. Accessible via Ctrl-Alt-Del, This will allow the spawning of processes, as well as the ability to kill off processes.
+
+__SYSTEM_CALLS__
+
+Programs run under user mode. As such, the only means of communication with hardware/the kernel is to CALL 0x80. See syscall.txt for more information.
