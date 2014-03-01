@@ -18,6 +18,7 @@ file.close
 puts "Changing data sections to text sections..."
 output.gsub! ".data", ".text"
 output.gsub! ".rodata", ".text"
+output.gsub! "_GLOBAL_OFFSET_TABLE_", "0"
 
 puts "Writing new file..."
 file = File.open ARGV[1], 'w'

@@ -1,4 +1,4 @@
-__LOONIX__
+__FLAT-OS__
 
 This is simply a small kernel, made to run a small collection of programs. It's not much, and I don't expect it ever will be.
 
@@ -15,6 +15,12 @@ The Source Tree:
 		kernel files
 		header/
 			header files
+		bin/
+			programs
+		initramfs/
+			initrd and ramdisk packing utilities
+		build/
+			where the finished kernel is located after make'ing it
 
 Files that should never be touched:
 	kheap.c
@@ -40,11 +46,3 @@ Disk drivers should be added later on, but for the time being, there are none.
 __NETWORKING__
 
 There is pretty much no chance there will be networking, but I'll see what I can do.
-
-__INTERFACE__
-
-Everything will based around the start shell. Accessible via Ctrl-Alt-Del, This will allow the spawning of processes, as well as the ability to kill off processes.
-
-__SYSTEM_CALLS__
-
-Programs run under user mode. As such, the only means of communication with hardware/the kernel is to CALL 0x80. See syscall.txt for more information.

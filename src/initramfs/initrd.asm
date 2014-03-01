@@ -8,7 +8,7 @@
 	db "test",0
 	times (128 - 5) db 0
 	dd FILE1
-	dd 88
+	dd 124
 FILE0:
 	incbin "test.txt"
 FILE1:
