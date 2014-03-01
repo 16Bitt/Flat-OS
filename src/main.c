@@ -17,7 +17,8 @@ int main(struct multiboot* mboot_ptr){
 	ASSERT(mboot_ptr->mods_count != 0);
 	mnt_initrd(mboot_ptr->mods_addr);
 	
-	fprint("test.txt");
+	fexec_sp("test");
+	vga_puts("Test program exited successfully!");
 
 	return 420;
 }

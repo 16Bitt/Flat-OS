@@ -10,7 +10,13 @@ unsigned int fopen(char* filename){
 }
 
 int fexec_sp(char* filename){
-	return -1;
+	if(!is_file(filename))
+		return -1;
+
+	void (*code)() = (void*) get_file_data(filename);
+	(*code)();
+
+	return 0;
 }
 
 void fprint(char* filename){

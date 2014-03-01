@@ -1,17 +1,17 @@
 	dd END - $
 	dd 0x04206969
 	dd 2
+	db "test",0
+	times (128 - 5) db 0
+	dd FILE0
+	dd 80
 	db "test.txt",0
 	times (128 - 9) db 0
-	dd FILE0
-	dd 13
-	db "test2.txt",0
-	times (128 - 10) db 0
 	dd FILE1
-	dd 27
+	dd 13
 FILE0:
-	incbin "test.txt"
+	incbin "test"
 FILE1:
-	incbin "test2.txt"
+	incbin "test.txt"
 	dd 0x04206969
 END:
